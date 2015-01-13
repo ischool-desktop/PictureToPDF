@@ -39,6 +39,8 @@
             this.txtPicFolder = new System.Windows.Forms.TextBox();
             this.txtTargetPath = new System.Windows.Forms.TextBox();
             this.txtSourcePath = new System.Windows.Forms.TextBox();
+            this.lnkSetting = new System.Windows.Forms.LinkLabel();
+            this.lnkMerge = new System.Windows.Forms.LinkLabel();
             this.SuspendLayout();
             // 
             // labelX1
@@ -107,7 +109,7 @@
             this.btnConfirm.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnConfirm.BackColor = System.Drawing.Color.Transparent;
             this.btnConfirm.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
-            this.btnConfirm.Location = new System.Drawing.Point(341, 210);
+            this.btnConfirm.Location = new System.Drawing.Point(341, 200);
             this.btnConfirm.Name = "btnConfirm";
             this.btnConfirm.Size = new System.Drawing.Size(75, 23);
             this.btnConfirm.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
@@ -121,7 +123,7 @@
             this.btnExit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnExit.BackColor = System.Drawing.Color.Transparent;
             this.btnExit.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
-            this.btnExit.Location = new System.Drawing.Point(424, 210);
+            this.btnExit.Location = new System.Drawing.Point(424, 200);
             this.btnExit.Name = "btnExit";
             this.btnExit.Size = new System.Drawing.Size(75, 23);
             this.btnExit.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
@@ -195,11 +197,38 @@
             this.txtSourcePath.Text = global::PictureToPDF.Properties.Settings.Default.XlsPath;
             this.txtSourcePath.TextChanged += new System.EventHandler(this.txtSourcePath_TextChanged);
             // 
+            // lnkSetting
+            // 
+            this.lnkSetting.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lnkSetting.AutoSize = true;
+            this.lnkSetting.BackColor = System.Drawing.Color.Transparent;
+            this.lnkSetting.Location = new System.Drawing.Point(332, 19);
+            this.lnkSetting.Name = "lnkSetting";
+            this.lnkSetting.Size = new System.Drawing.Size(73, 17);
+            this.lnkSetting.TabIndex = 11;
+            this.lnkSetting.TabStop = true;
+            this.lnkSetting.Text = "設定檔格式";
+            this.lnkSetting.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkSetting_LinkClicked);
+            // 
+            // lnkMerge
+            // 
+            this.lnkMerge.AutoSize = true;
+            this.lnkMerge.BackColor = System.Drawing.Color.Transparent;
+            this.lnkMerge.Location = new System.Drawing.Point(10, 206);
+            this.lnkMerge.Name = "lnkMerge";
+            this.lnkMerge.Size = new System.Drawing.Size(86, 17);
+            this.lnkMerge.TabIndex = 12;
+            this.lnkMerge.TabStop = true;
+            this.lnkMerge.Text = "合併欄位檢視";
+            this.lnkMerge.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkMerge_LinkClicked);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(512, 240);
+            this.ClientSize = new System.Drawing.Size(512, 233);
+            this.Controls.Add(this.lnkMerge);
+            this.Controls.Add(this.lnkSetting);
             this.Controls.Add(this.btnPicFolder);
             this.Controls.Add(this.txtPicFolder);
             this.Controls.Add(this.btnExit);
@@ -234,6 +263,8 @@
         private System.Windows.Forms.TextBox txtPicFolder;
         private DevComponents.DotNetBar.LabelX labelX3;
         private System.Windows.Forms.TextBox txtSourcePath;
+        private System.Windows.Forms.LinkLabel lnkSetting;
+        private System.Windows.Forms.LinkLabel lnkMerge;
     }
 }
 

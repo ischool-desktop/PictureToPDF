@@ -121,4 +121,10 @@
   <data name="Aspose_Total" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\library\Aspose.Total.lic;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="功能變數" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\功能變數.doc;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="封面設定檔" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\封面設定檔.xls;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
 </root>

@@ -69,5 +69,25 @@ namespace PictureToPDF.Properties {
                 return ((byte[])(obj));
             }
         }
+        
+        /// <summary>
+        ///   查詢類型 System.Byte[] 的當地語系化資源。
+        /// </summary>
+        internal static byte[] 功能變數 {
+            get {
+                object obj = ResourceManager.GetObject("功能變數", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類型 System.Byte[] 的當地語系化資源。
+        /// </summary>
+        internal static byte[] 封面設定檔 {
+            get {
+                object obj = ResourceManager.GetObject("封面設定檔", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
     }
 }
