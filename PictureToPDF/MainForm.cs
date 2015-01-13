@@ -42,10 +42,17 @@ namespace PictureToPDF
 
         private void _BW_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            if (e.Error != null)
-                MessageBox.Show(e.Error.Message);
-            else
-                System.Diagnostics.Process.Start(_target);
+            try
+            {
+                if (e.Error != null)
+                    MessageBox.Show(e.Error.Message);
+                else
+                    System.Diagnostics.Process.Start(_target);
+            }
+            finally
+            {
+                btnConfirm.Enabled = true;
+            }
         }
 
         private void _BW_DoWork(object sender, DoWorkEventArgs e)
@@ -126,6 +133,10 @@ namespace PictureToPDF
 
         private void btnConfirm_Click(object sender, EventArgs e)
         {
+            _source = txtSourcePath.Text;
+            _target = txtTargetPath.Text;
+            _picFolderPath = txtPicFolder.Text;
+
             //檢查路徑設定
             if (string.IsNullOrWhiteSpace(_source) || string.IsNullOrWhiteSpace(_target) || string.IsNullOrWhiteSpace(_picFolderPath))
             {
@@ -140,13 +151,13 @@ namespace PictureToPDF
                 MessageBox.Show("找不到檔案:" + _templatePath);
                 return;
             }
-                
+
             //嘗試讀取Excel檔
             try
             {
                 _WB = new Workbook(_source);
             }
-            catch(Exception error)
+            catch (Exception error)
             {
                 MessageBox.Show(error.Message);
                 return;
@@ -155,7 +166,10 @@ namespace PictureToPDF
             if (_BW.IsBusy)
                 MessageBox.Show("正在忙碌中,請稍後再試...");
             else
+            {
                 _BW.RunWorkerAsync();
+                btnConfirm.Enabled = false;
+            }
         }
 
         private DataTable GetData()
@@ -274,7 +288,20 @@ namespace PictureToPDF
                 string filePath = args.FieldValue + "";
                 if (!string.IsNullOrWhiteSpace(filePath))
                 {
-                    args.Image = GetBitmap(filePath, 300 , 200);
+                    //args.Image = GetBitmap(filePath, 300 , 200);
+
+                    using (Bitmap pic = new Bitmap(filePath))
+                    {
+                        int seed = 5;
+                        Size size = GetResize(pic, 40 * seed, 30 * seed);
+                        Aspose.Words.Fields.MergeFieldImageDimension h = new Aspose.Words.Fields.MergeFieldImageDimension(size.Height, Aspose.Words.Fields.MergeFieldImageDimensionUnit.Point);
+                        Aspose.Words.Fields.MergeFieldImageDimension w = new Aspose.Words.Fields.MergeFieldImageDimension(size.Width, Aspose.Words.Fields.MergeFieldImageDimensionUnit.Point);
+
+                        args.ImageHeight = h;
+                        args.ImageWidth = w;
+                        //args.Image = pic;
+                    }
+
                 }
             }
 
@@ -319,6 +346,44 @@ namespace PictureToPDF
 
                 return new Bitmap(photo, newSize);
             }
+        }
+
+        public static Size GetResize(Bitmap photo, int maxWidth, int maxHeight)
+        {
+            int width = photo.Width;
+            int height = photo.Height;
+            Size newSize;
+
+            if (width < maxWidth && height < maxHeight)
+                return new Size(width, height);
+
+            decimal maxW = Convert.ToDecimal(maxWidth);
+            decimal maxH = Convert.ToDecimal(maxHeight);
+
+            decimal mp = decimal.Divide(maxW, maxH);
+            decimal p = decimal.Divide(width, height);
+
+
+            // 若長寬比預設比例較寬, 則以傳入之長為縮放基準
+            if (mp > p)
+            {
+                decimal hp = decimal.Divide(maxH, height);
+                decimal newWidth = decimal.Multiply(hp, width);
+                newSize = new Size(decimal.ToInt32(newWidth), maxHeight);
+            }
+            else
+            {
+                decimal wp = decimal.Divide(maxW, width);
+                decimal newHeight = decimal.Multiply(wp, height);
+                newSize = new Size(maxWidth, decimal.ToInt32(newHeight));
+            }
+
+            return newSize;
+        }
+
+        private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Properties.Settings.Default.Save();
         }
     }
 }

@@ -22,5 +22,41 @@ namespace PictureToPDF.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string XlsPath {
+            get {
+                return ((string)(this["XlsPath"]));
+            }
+            set {
+                this["XlsPath"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string PicturePath {
+            get {
+                return ((string)(this["PicturePath"]));
+            }
+            set {
+                this["PicturePath"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string TargetFolder {
+            get {
+                return ((string)(this["TargetFolder"]));
+            }
+            set {
+                this["TargetFolder"] = value;
+            }
+        }
     }
 }

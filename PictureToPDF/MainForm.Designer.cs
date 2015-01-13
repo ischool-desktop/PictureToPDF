@@ -29,20 +29,22 @@
         private void InitializeComponent()
         {
             this.labelX1 = new DevComponents.DotNetBar.LabelX();
-            this.txtSourcePath = new System.Windows.Forms.TextBox();
             this.btnSource = new DevComponents.DotNetBar.ButtonX();
             this.btnTarget = new DevComponents.DotNetBar.ButtonX();
-            this.txtTargetPath = new System.Windows.Forms.TextBox();
             this.labelX2 = new DevComponents.DotNetBar.LabelX();
             this.btnConfirm = new DevComponents.DotNetBar.ButtonX();
             this.btnExit = new DevComponents.DotNetBar.ButtonX();
             this.btnPicFolder = new DevComponents.DotNetBar.ButtonX();
-            this.txtPicFolder = new System.Windows.Forms.TextBox();
             this.labelX3 = new DevComponents.DotNetBar.LabelX();
+            this.txtPicFolder = new System.Windows.Forms.TextBox();
+            this.txtTargetPath = new System.Windows.Forms.TextBox();
+            this.txtSourcePath = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // labelX1
             // 
+            this.labelX1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.labelX1.BackColor = System.Drawing.Color.Transparent;
             // 
             // 
@@ -51,24 +53,17 @@
             this.labelX1.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.labelX1.Location = new System.Drawing.Point(13, 13);
             this.labelX1.Name = "labelX1";
-            this.labelX1.Size = new System.Drawing.Size(341, 23);
+            this.labelX1.Size = new System.Drawing.Size(392, 23);
             this.labelX1.TabIndex = 8;
             this.labelX1.Text = "請選擇設定檔案路徑(*.xls)";
-            // 
-            // txtSourcePath
-            // 
-            this.txtSourcePath.Location = new System.Drawing.Point(13, 43);
-            this.txtSourcePath.Name = "txtSourcePath";
-            this.txtSourcePath.Size = new System.Drawing.Size(435, 25);
-            this.txtSourcePath.TabIndex = 1;
-            this.txtSourcePath.TextChanged += new System.EventHandler(this.txtSourcePath_TextChanged);
             // 
             // btnSource
             // 
             this.btnSource.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
+            this.btnSource.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSource.BackColor = System.Drawing.Color.Transparent;
             this.btnSource.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
-            this.btnSource.Location = new System.Drawing.Point(373, 13);
+            this.btnSource.Location = new System.Drawing.Point(424, 13);
             this.btnSource.Name = "btnSource";
             this.btnSource.Size = new System.Drawing.Size(75, 23);
             this.btnSource.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
@@ -79,9 +74,10 @@
             // btnTarget
             // 
             this.btnTarget.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
+            this.btnTarget.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnTarget.BackColor = System.Drawing.Color.Transparent;
             this.btnTarget.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
-            this.btnTarget.Location = new System.Drawing.Point(373, 135);
+            this.btnTarget.Location = new System.Drawing.Point(424, 135);
             this.btnTarget.Name = "btnTarget";
             this.btnTarget.Size = new System.Drawing.Size(75, 23);
             this.btnTarget.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
@@ -89,16 +85,10 @@
             this.btnTarget.Text = "選擇";
             this.btnTarget.Click += new System.EventHandler(this.btnTarget_Click);
             // 
-            // txtTargetPath
-            // 
-            this.txtTargetPath.Location = new System.Drawing.Point(13, 165);
-            this.txtTargetPath.Name = "txtTargetPath";
-            this.txtTargetPath.Size = new System.Drawing.Size(435, 25);
-            this.txtTargetPath.TabIndex = 3;
-            this.txtTargetPath.TextChanged += new System.EventHandler(this.txtTargetPath_TextChanged);
-            // 
             // labelX2
             // 
+            this.labelX2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.labelX2.BackColor = System.Drawing.Color.Transparent;
             // 
             // 
@@ -107,16 +97,17 @@
             this.labelX2.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.labelX2.Location = new System.Drawing.Point(13, 135);
             this.labelX2.Name = "labelX2";
-            this.labelX2.Size = new System.Drawing.Size(341, 23);
+            this.labelX2.Size = new System.Drawing.Size(392, 23);
             this.labelX2.TabIndex = 9;
             this.labelX2.Text = "請選擇輸出目的資料夾";
             // 
             // btnConfirm
             // 
             this.btnConfirm.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
+            this.btnConfirm.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnConfirm.BackColor = System.Drawing.Color.Transparent;
             this.btnConfirm.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
-            this.btnConfirm.Location = new System.Drawing.Point(290, 210);
+            this.btnConfirm.Location = new System.Drawing.Point(341, 210);
             this.btnConfirm.Name = "btnConfirm";
             this.btnConfirm.Size = new System.Drawing.Size(75, 23);
             this.btnConfirm.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
@@ -127,9 +118,10 @@
             // btnExit
             // 
             this.btnExit.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
+            this.btnExit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnExit.BackColor = System.Drawing.Color.Transparent;
             this.btnExit.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
-            this.btnExit.Location = new System.Drawing.Point(373, 210);
+            this.btnExit.Location = new System.Drawing.Point(424, 210);
             this.btnExit.Name = "btnExit";
             this.btnExit.Size = new System.Drawing.Size(75, 23);
             this.btnExit.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
@@ -140,9 +132,10 @@
             // btnPicFolder
             // 
             this.btnPicFolder.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
+            this.btnPicFolder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnPicFolder.BackColor = System.Drawing.Color.Transparent;
             this.btnPicFolder.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
-            this.btnPicFolder.Location = new System.Drawing.Point(372, 74);
+            this.btnPicFolder.Location = new System.Drawing.Point(423, 74);
             this.btnPicFolder.Name = "btnPicFolder";
             this.btnPicFolder.Size = new System.Drawing.Size(75, 23);
             this.btnPicFolder.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
@@ -150,16 +143,10 @@
             this.btnPicFolder.Text = "選擇";
             this.btnPicFolder.Click += new System.EventHandler(this.btnPicFolder_Click);
             // 
-            // txtPicFolder
-            // 
-            this.txtPicFolder.Location = new System.Drawing.Point(12, 104);
-            this.txtPicFolder.Name = "txtPicFolder";
-            this.txtPicFolder.Size = new System.Drawing.Size(435, 25);
-            this.txtPicFolder.TabIndex = 5;
-            this.txtPicFolder.TextChanged += new System.EventHandler(this.txtPicFolder_TextChanged);
-            // 
             // labelX3
             // 
+            this.labelX3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.labelX3.BackColor = System.Drawing.Color.Transparent;
             // 
             // 
@@ -168,15 +155,51 @@
             this.labelX3.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.labelX3.Location = new System.Drawing.Point(12, 74);
             this.labelX3.Name = "labelX3";
-            this.labelX3.Size = new System.Drawing.Size(341, 23);
+            this.labelX3.Size = new System.Drawing.Size(392, 23);
             this.labelX3.TabIndex = 10;
             this.labelX3.Text = "請選擇圖片來源資料夾";
+            // 
+            // txtPicFolder
+            // 
+            this.txtPicFolder.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtPicFolder.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::PictureToPDF.Properties.Settings.Default, "PicturePath", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.txtPicFolder.Location = new System.Drawing.Point(12, 104);
+            this.txtPicFolder.Name = "txtPicFolder";
+            this.txtPicFolder.Size = new System.Drawing.Size(486, 25);
+            this.txtPicFolder.TabIndex = 5;
+            this.txtPicFolder.Text = global::PictureToPDF.Properties.Settings.Default.PicturePath;
+            this.txtPicFolder.TextChanged += new System.EventHandler(this.txtPicFolder_TextChanged);
+            // 
+            // txtTargetPath
+            // 
+            this.txtTargetPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtTargetPath.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::PictureToPDF.Properties.Settings.Default, "TargetFolder", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.txtTargetPath.Location = new System.Drawing.Point(13, 165);
+            this.txtTargetPath.Name = "txtTargetPath";
+            this.txtTargetPath.Size = new System.Drawing.Size(486, 25);
+            this.txtTargetPath.TabIndex = 3;
+            this.txtTargetPath.Text = global::PictureToPDF.Properties.Settings.Default.TargetFolder;
+            this.txtTargetPath.TextChanged += new System.EventHandler(this.txtTargetPath_TextChanged);
+            // 
+            // txtSourcePath
+            // 
+            this.txtSourcePath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtSourcePath.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::PictureToPDF.Properties.Settings.Default, "XlsPath", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.txtSourcePath.Location = new System.Drawing.Point(13, 43);
+            this.txtSourcePath.Name = "txtSourcePath";
+            this.txtSourcePath.Size = new System.Drawing.Size(486, 25);
+            this.txtSourcePath.TabIndex = 1;
+            this.txtSourcePath.Text = global::PictureToPDF.Properties.Settings.Default.XlsPath;
+            this.txtSourcePath.TextChanged += new System.EventHandler(this.txtSourcePath_TextChanged);
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(461, 240);
+            this.ClientSize = new System.Drawing.Size(512, 240);
             this.Controls.Add(this.btnPicFolder);
             this.Controls.Add(this.txtPicFolder);
             this.Controls.Add(this.btnExit);
@@ -192,6 +215,7 @@
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "設定";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainForm_FormClosed);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -200,7 +224,6 @@
         #endregion
 
         private DevComponents.DotNetBar.LabelX labelX1;
-        private System.Windows.Forms.TextBox txtSourcePath;
         private DevComponents.DotNetBar.ButtonX btnSource;
         private DevComponents.DotNetBar.ButtonX btnTarget;
         private System.Windows.Forms.TextBox txtTargetPath;
@@ -210,6 +233,7 @@
         private DevComponents.DotNetBar.ButtonX btnPicFolder;
         private System.Windows.Forms.TextBox txtPicFolder;
         private DevComponents.DotNetBar.LabelX labelX3;
+        private System.Windows.Forms.TextBox txtSourcePath;
     }
 }
 
