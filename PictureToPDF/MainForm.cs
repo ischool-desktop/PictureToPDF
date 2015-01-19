@@ -73,8 +73,10 @@ namespace PictureToPDF
                         doc.MailMerge.FieldMergingCallback = new MergeCallBack();
 
                         doc.MailMerge.Execute(row);
+                        doc.MailMerge.DeleteFields();
 
                         doc.Save(fileName, Aspose.Words.SaveFormat.Pdf);
+                        //doc.Save(fileName, Aspose.Words.SaveFormat.Doc);
                     }
                     catch (Exception error)
                     {
@@ -206,6 +208,7 @@ namespace PictureToPDF
             sheet2Mapping.Add("指導老師圖片", -1);
             sheet2Mapping.Add("實習老師圖片", -1);
             sheet2Mapping.Add("標題", -1);
+            sheet2Mapping.Add("班級", -1);
 
             //DataTable欄位建立
             DataTable table = new DataTable();
@@ -219,6 +222,7 @@ namespace PictureToPDF
             table.Columns.Add("指導老師圖片");
             table.Columns.Add("實習老師圖片");
             table.Columns.Add("標題");
+            table.Columns.Add("班級");
 
             //取得有資料的最大範圍
             int maxDataRow = _WB.Worksheets["學生資料"].Cells.MaxDataRow;
@@ -233,6 +237,7 @@ namespace PictureToPDF
             string 指導老師圖片 = GetColumnValue("共同設定", 1, sheet2Mapping, "指導老師圖片");
             string 實習老師圖片 = GetColumnValue("共同設定", 1, sheet2Mapping, "實習老師圖片");
             string 標題 = GetColumnValue("共同設定", 1, sheet2Mapping, "標題");
+            string 班級 = GetColumnValue("共同設定", 1, sheet2Mapping, "班級");
 
             //取得每個row
             for (int i = 1; i <= maxDataRow; i++)
@@ -245,6 +250,7 @@ namespace PictureToPDF
                 row["指導老師圖片"] = GetPicPath(指導老師圖片);
                 row["實習老師圖片"] = GetPicPath(實習老師圖片);
                 row["標題"] = 標題;
+                row["班級"] = 班級;
 
                 foreach (string columnName in sheet1Mapping.Keys)
                 {
@@ -307,8 +313,8 @@ namespace PictureToPDF
             {
                 int seed = 5;
 
-                if (args.FieldName != "學生圖片")
-                    seed = 3;
+                //if (args.FieldName != "學生圖片")
+                //    seed = 3;
 
                 string filePath = args.FieldValue + "";
                 if (!string.IsNullOrWhiteSpace(filePath))
