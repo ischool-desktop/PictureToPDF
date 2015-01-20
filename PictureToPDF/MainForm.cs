@@ -18,11 +18,11 @@ namespace PictureToPDF
 {
     public partial class MainForm : BaseForm
     {
-        string _source, _target, _picFolderPath, _templatePath;
+        string _source, _target, _picFolderPath, _templatePath, _vlookupPath;
         BackgroundWorker _BW;
         Workbook _WB;
         List<string> _formats = new List<string>() { "", ".jpg", ".png" };
-        List<string> _sheets = new List<string>() { "學生資料","共同設定" };
+        string _sheetName = "學生資料";
 
         public MainForm()
         {
@@ -61,13 +61,29 @@ namespace PictureToPDF
             using (FileStream stream = new FileStream(_templatePath, FileMode.Open))
             {
                 DataTable table = GetData();
+
+                IDNumberLookup lookup = new IDNumberLookup(_vlookupPath);
+                
+                int error_count = 0;
                 foreach (DataRow row in table.Rows)
                 {
+                    error_count++;
                     try
                     {
                         stream.Seek(0, SeekOrigin.Begin);
 
-                        string fileName = _target + "\\" + row["學號"] + "_" + row["學生姓名"] + "_" + row["座號"] + ".pdf";
+                        PictureToPDF.IDNumberLookup.StudentData stu = lookup.GetStudentData(row["班級名稱"] + "", row["座號"] + "");
+
+                        if (stu == null)
+                        {
+                            stu = new IDNumberLookup.StudentData();
+                        }
+
+                        //名字不對就顯示查無證號 + error_count
+                        if(stu.Name != row["學生姓名"] + "")
+                            stu.IDNumber = string.Format("查無證號{0}", error_count);
+                           
+                        string fileName = string.Format("{0}\\{1}.pdf", _target, Util.GenerateFileName(stu.IDNumber));
 
                         Document doc = new Document(stream);
                         doc.MailMerge.FieldMergingCallback = new MergeCallBack();
@@ -154,11 +170,18 @@ namespace PictureToPDF
                 return;
             }
 
-            //檢查template存在
+            //檢查檔案存在
             _templatePath = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "\\template.doc";
+            _vlookupPath = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "\\vlookup.xls";
+
             if (!File.Exists(_templatePath))
             {
                 MessageBox.Show("找不到範本檔案:" + _templatePath);
+                return;
+            }
+            else if (!File.Exists(_vlookupPath))
+            {
+                MessageBox.Show("找不到對照檔案:" + _vlookupPath);
                 return;
             }
 
@@ -167,13 +190,10 @@ namespace PictureToPDF
             {
                 _WB = new Workbook(_source);
 
-                foreach (string name in _sheets)
+                if (_WB.Worksheets[_sheetName] == null)
                 {
-                    if (_WB.Worksheets[name] == null)
-                    {
-                        MessageBox.Show(string.Format("Excel檔中找不到 '{0}' 頁面", name));
-                        return;
-                    }
+                    MessageBox.Show(string.Format("Excel檔中找不到 '{0}' 頁面", _sheetName));
+                    return;
                 }
             }
             catch (Exception error)
@@ -193,22 +213,11 @@ namespace PictureToPDF
 
         private DataTable GetData()
         {
-            //Sheet1 Column對照
-            Dictionary<string, int> sheet1Mapping = new Dictionary<string, int>();
-            sheet1Mapping.Add("學號", -1);
-            sheet1Mapping.Add("座號", -1);
-            sheet1Mapping.Add("學生姓名", -1);
-            sheet1Mapping.Add("學生圖片", -1);
+            //ws在此之前已檢查存在
+            Worksheet ws = _WB.Worksheets[_sheetName];
 
-            //Sheet2 Column對照
-            Dictionary<string, int> sheet2Mapping = new Dictionary<string, int>();
-            sheet2Mapping.Add("學年度學期", -1);
-            sheet2Mapping.Add("指導老師", -1);
-            sheet2Mapping.Add("實習老師", -1);
-            sheet2Mapping.Add("指導老師圖片", -1);
-            sheet2Mapping.Add("實習老師圖片", -1);
-            sheet2Mapping.Add("標題", -1);
-            sheet2Mapping.Add("班級", -1);
+            //Sheet1 Column對照
+            Dictionary<string, int> sheetMapping = GetColumnMapping(ws);
 
             //DataTable欄位建立
             DataTable table = new DataTable();
@@ -222,69 +231,61 @@ namespace PictureToPDF
             table.Columns.Add("指導老師圖片");
             table.Columns.Add("實習老師圖片");
             table.Columns.Add("標題");
-            table.Columns.Add("班級");
+            table.Columns.Add("班級名稱");
 
-            //取得有資料的最大範圍
-            int maxDataRow = _WB.Worksheets["學生資料"].Cells.MaxDataRow;
-
-            SetColumnIndex(sheet1Mapping, "學生資料");
-            SetColumnIndex(sheet2Mapping, "共同設定");
-
-            //共同設定參數
-            string 學年度學期 = GetColumnValue("共同設定", 1, sheet2Mapping, "學年度學期");
-            string 指導老師 = GetColumnValue("共同設定", 1, sheet2Mapping, "指導老師");
-            string 實習老師 = GetColumnValue("共同設定", 1, sheet2Mapping, "實習老師");
-            string 指導老師圖片 = GetColumnValue("共同設定", 1, sheet2Mapping, "指導老師圖片");
-            string 實習老師圖片 = GetColumnValue("共同設定", 1, sheet2Mapping, "實習老師圖片");
-            string 標題 = GetColumnValue("共同設定", 1, sheet2Mapping, "標題");
-            string 班級 = GetColumnValue("共同設定", 1, sheet2Mapping, "班級");
-
-            //取得每個row
-            for (int i = 1; i <= maxDataRow; i++)
+            //讀取_WB資料
+            for (int i = 1; i <= _WB.Worksheets[_sheetName].Cells.MaxDataRow; i++)
             {
                 DataRow row = table.NewRow();
 
+                string 學號 = GetColumnValue(ws, i, sheetMapping, "學號");
+                string 座號 = GetColumnValue(ws, i, sheetMapping, "座號");
+                string 學生姓名 = GetColumnValue(ws, i, sheetMapping, "學生姓名");
+                string 學生圖片 = GetColumnValue(ws, i, sheetMapping, "學生圖片");
+                string 學年度學期 = GetColumnValue(ws, i, sheetMapping, "學年度學期");
+                string 指導老師 = GetColumnValue(ws, i, sheetMapping, "指導老師");
+                string 實習老師 = GetColumnValue(ws, i, sheetMapping, "實習老師");
+                string 指導老師圖片 = GetColumnValue(ws, i, sheetMapping, "指導老師圖片");
+                string 實習老師圖片 = GetColumnValue(ws, i, sheetMapping, "實習老師圖片");
+                string 標題 = GetColumnValue(ws, i, sheetMapping, "標題");
+                string 班級名稱 = GetColumnValue(ws, i, sheetMapping, "班級名稱");
+
+                row["學號"] = 學號;
+                row["座號"] = 座號;
+                row["學生姓名"] = 學生姓名;
+                row["學生圖片"] = GetPicPath(學生圖片);
                 row["學年度學期"] = 學年度學期;
                 row["指導老師"] = 指導老師;
                 row["實習老師"] = 實習老師;
                 row["指導老師圖片"] = GetPicPath(指導老師圖片);
                 row["實習老師圖片"] = GetPicPath(實習老師圖片);
                 row["標題"] = 標題;
-                row["班級"] = 班級;
-
-                foreach (string columnName in sheet1Mapping.Keys)
-                {
-                    int columnIndex = sheet1Mapping[columnName];
-
-                    if (columnIndex >= 0)
-                    {
-                        string value = _WB.Worksheets["學生資料"].Cells[i, columnIndex].Value + "";
-
-                        switch (columnName)
-                        {
-                            case "學號":
-                                row["學號"] = value;
-                                break;
-
-                            case "座號":
-                                row["座號"] = value;
-                                break;
-
-                            case "學生姓名":
-                                row["學生姓名"] = value;
-                                break;
-
-                            case "學生圖片":
-                                row["學生圖片"] = GetPicPath(value);
-                                break;
-                        }
-                    }
-                }
+                row["班級名稱"] = 班級名稱;
 
                 table.Rows.Add(row);
             }
 
             return table;
+        }
+
+        /// <summary>
+        /// 取得欄位對照
+        /// </summary>
+        /// <param name="ws"></param>
+        /// <returns></returns>
+        private Dictionary<string, int> GetColumnMapping(Worksheet ws)
+        {
+            Dictionary<string, int> dic = new Dictionary<string, int>();
+
+            for(int i=0;i<=ws.Cells.MaxDataColumn;i++)
+            {
+                string value = ws.Cells[0,i].Value + "";
+
+                if (!dic.ContainsKey(value))
+                    dic.Add(value, i);
+            }
+
+            return dic;
         }
 
         private void txtSourcePath_TextChanged(object sender, EventArgs e)
@@ -376,40 +377,22 @@ namespace PictureToPDF
         }
 
         /// <summary>
-        /// 記憶支援的欄位index
-        /// </summary>
-        /// <param name="dic"></param>
-        /// <param name="sheetName"></param>
-        private void SetColumnIndex(Dictionary<string, int> dic,string sheetName)
-        {
-            for (int i = 0; i <= _WB.Worksheets[sheetName].Cells.MaxDataColumn; i++)
-            {
-                string columnName = _WB.Worksheets[sheetName].Cells[0, i].Value + "";
-
-                if (dic.ContainsKey(columnName))
-                    dic[columnName] = i;
-            }
-        }
-
-        /// <summary>
         /// 取得指定的欄位資料
         /// </summary>
+        /// <param name="wb"></param>
         /// <param name="sheetName"></param>
         /// <param name="row"></param>
         /// <param name="dic"></param>
         /// <param name="colName"></param>
         /// <returns></returns>
-        private string GetColumnValue(string sheetName, int row, Dictionary<string, int> dic,string colName)
+        private string GetColumnValue(Worksheet ws, int row, Dictionary<string, int> dic, string colName)
         {
-            string value = "";
+            string value = string.Empty;
 
-            if (dic.ContainsKey(colName))
+            if (ws != null && dic.ContainsKey(colName))
             {
                 int index = dic[colName];
-                if (index >= 0)
-                {
-                    value = _WB.Worksheets[sheetName].Cells[row, index].Value + "";
-                }
+                value = ws.Cells[row, index].Value + "";
             }
 
             return value;
@@ -447,10 +430,10 @@ namespace PictureToPDF
             {
                 try
                 {
-                    wb.Save(sfd.FileName,Aspose.Cells.SaveFormat.Excel97To2003);
+                    wb.Save(sfd.FileName, Aspose.Cells.SaveFormat.Excel97To2003);
                     System.Diagnostics.Process.Start(sfd.FileName);
                 }
-                catch(Exception error)
+                catch (Exception error)
                 {
                     MessageBox.Show(error.Message);
                 }
@@ -468,7 +451,7 @@ namespace PictureToPDF
             {
                 try
                 {
-                    doc.Save(sfd.FileName,Aspose.Words.SaveFormat.Doc);
+                    doc.Save(sfd.FileName, Aspose.Words.SaveFormat.Doc);
                     System.Diagnostics.Process.Start(sfd.FileName);
                 }
                 catch (Exception error)
