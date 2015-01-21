@@ -102,7 +102,7 @@ namespace PictureToPDF
             string key = GetKey(cn, sno);
 
             if (Lookup.ContainsKey(key))
-                return Lookup[key];
+                return Lookup[key].Clone();
             else
                 return null;
         }
@@ -114,6 +114,16 @@ namespace PictureToPDF
             public string IDNumber { get; set; }
 
             public string StudentNumber { get; set; }
+
+            public StudentData Clone()
+            {
+                StudentData data = new StudentData();
+                data.Name = this.Name;
+                data.IDNumber = this.IDNumber;
+                data.StudentNumber = this.StudentNumber;
+
+                return data;
+            }
         }
     }
 }

@@ -41,6 +41,7 @@
             this.txtSourcePath = new System.Windows.Forms.TextBox();
             this.lnkSetting = new System.Windows.Forms.LinkLabel();
             this.lnkMerge = new System.Windows.Forms.LinkLabel();
+            this.lblProgress = new DevComponents.DotNetBar.LabelX();
             this.SuspendLayout();
             // 
             // labelX1
@@ -222,11 +223,25 @@
             this.lnkMerge.Text = "合併欄位檢視";
             this.lnkMerge.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkMerge_LinkClicked);
             // 
+            // lblProgress
+            // 
+            this.lblProgress.BackColor = System.Drawing.Color.Transparent;
+            // 
+            // 
+            // 
+            this.lblProgress.BackgroundStyle.Class = "";
+            this.lblProgress.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.lblProgress.Location = new System.Drawing.Point(157, 200);
+            this.lblProgress.Name = "lblProgress";
+            this.lblProgress.Size = new System.Drawing.Size(160, 23);
+            this.lblProgress.TabIndex = 13;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(512, 233);
+            this.Controls.Add(this.lblProgress);
             this.Controls.Add(this.lnkMerge);
             this.Controls.Add(this.lnkSetting);
             this.Controls.Add(this.btnPicFolder);
@@ -265,6 +280,7 @@
         private System.Windows.Forms.TextBox txtSourcePath;
         private System.Windows.Forms.LinkLabel lnkSetting;
         private System.Windows.Forms.LinkLabel lnkMerge;
+        private DevComponents.DotNetBar.LabelX lblProgress;
     }
 }
 

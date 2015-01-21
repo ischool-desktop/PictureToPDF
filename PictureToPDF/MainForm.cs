@@ -63,11 +63,13 @@ namespace PictureToPDF
                 DataTable table = GetData();
 
                 IDNumberLookup lookup = new IDNumberLookup(_vlookupPath);
-                
+
+                int data_count = table.Rows.Count;
+                int progress = 1;
                 int error_count = 0;
+
                 foreach (DataRow row in table.Rows)
                 {
-                    error_count++;
                     try
                     {
                         stream.Seek(0, SeekOrigin.Begin);
@@ -80,9 +82,12 @@ namespace PictureToPDF
                         }
 
                         //名字不對就顯示查無證號 + error_count
-                        if(stu.Name != row["學生姓名"] + "")
-                            stu.IDNumber = string.Format("查無證號{0}", error_count);
-                           
+                        if (stu.Name != row["學生姓名"] + "")
+                        {
+                            stu.IDNumber = string.Format("查無證號{0}{1}", error_count, row["學生姓名"] + "");
+                            error_count++;
+                        }
+                            
                         string fileName = string.Format("{0}\\{1}.pdf", _target, Util.GenerateFileName(stu.IDNumber));
 
                         Document doc = new Document(stream);
@@ -92,6 +97,8 @@ namespace PictureToPDF
                         doc.MailMerge.DeleteFields();
 
                         doc.Save(fileName, Aspose.Words.SaveFormat.Pdf);
+                        ReportProgress(data_count, progress);
+                        progress++;
                         //doc.Save(fileName, Aspose.Words.SaveFormat.Doc);
                     }
                     catch (Exception error)
@@ -458,6 +465,19 @@ namespace PictureToPDF
                 {
                     MessageBox.Show(error.Message);
                 }
+            }
+        }
+
+        private void ReportProgress(int total, int current)
+        {
+            if (InvokeRequired)
+                Invoke(new Action<int, int>(ReportProgress), new object[] { total, current });
+            else
+            {
+                if (total == current)
+                    lblProgress.Text = string.Format("產生完成：{0}", total);
+                else
+                    lblProgress.Text = string.Format("進度：{0}/{1}", current, total);
             }
         }
     }
